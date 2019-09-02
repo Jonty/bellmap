@@ -1,0 +1,47 @@
+<html>
+<head>
+  <style type="text/css">
+    body { margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <div id="map" style="height: 100%; width: 100%"></div>
+
+  <link rel="stylesheet" href="leaflet.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="leaflet/leaflet.ie.css" /><![endif]-->
+  <script src="leaflet.js"></script>
+  <link rel="stylesheet" href="MarkerCluster.css" />
+  <link rel="stylesheet" href="MarkerCluster.Default.css" />
+  <script src="leaflet.markercluster-src.js"></script>
+
+  <script src="dove.json"></script>
+
+  <script language="javascript">
+      var map = L.map('map').setView([54.093409058179,-2.8947900255456], 6);
+
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+      }).addTo(map);
+
+      var markers = L.markerClusterGroup();
+
+      towers.forEach(function x(tower) {
+        title = "<b><a href='https://dove.cccbr.org.uk/detail.php?DoveID=" + tower.DoveID + "' target='_blank'>" + tower.Place + "</a></b><br>" + tower.Dedicn + "<br><br>Bells: <b>" + tower.Bells + "</b>";
+
+        if (tower.Practise != "") {
+          title = title + "<br>Practise: " + tower.Practise;
+        }
+        if (tower.ExtraInfo != "") {
+          title = title + "<br>Info: " + tower.ExtraInfo;
+        }
+
+        var marker = L.marker([tower.lat, tower.lon], {title: tower.DoveID});
+        marker.bindPopup(title);
+        markers.addLayer(marker);
+      })
+
+      map.addLayer(markers);
+
+  </script>
+</body>
+</html>
