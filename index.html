@@ -26,18 +26,20 @@
       var markers = L.markerClusterGroup();
 
       towers.forEach(function x(tower) {
-        title = "<b><a href='https://dove.cccbr.org.uk/detail.php?DoveID=" + tower.DoveID + "' target='_blank'>" + tower.Place + "</a></b><br>" + tower.Dedicn + "<br><br>Bells: <b>" + tower.Bells + "</b>";
+        if (tower.lat && tower.lon) {
+          title = "<b><a href='https://dove.cccbr.org.uk/detail.php?DoveID=" + tower.DoveID + "' target='_blank'>" + tower.Place + "</a></b><br>" + tower.Dedicn + "<br><br>Bells: <b>" + tower.Bells + "</b>";
 
-        if (tower.Practise != "") {
-          title = title + "<br>Practise: " + tower.Practise;
-        }
-        if (tower.ExtraInfo != "") {
-          title = title + "<br>Info: " + tower.ExtraInfo;
-        }
+          if (tower.Practise != "") {
+            title = title + "<br>Practise: " + tower.Practise;
+          }
+          if (tower.ExtraInfo != "") {
+            title = title + "<br>Info: " + tower.ExtraInfo;
+          }
 
-        var marker = L.marker([tower.lat, tower.lon], {title: tower.DoveID});
-        marker.bindPopup(title);
-        markers.addLayer(marker);
+          var marker = L.marker([tower.lat, tower.lon], {title: tower.DoveID});
+          marker.bindPopup(title);
+          markers.addLayer(marker);
+        }
       })
 
       map.addLayer(markers);
